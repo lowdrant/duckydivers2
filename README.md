@@ -2,7 +2,7 @@
 Rubber ducky scripts for calling in stratagems in HellDivers 2.
 
 ## Updating Stratagem Codes
-Stratagem codes are stored as entries in [codes.json](codes.json). Entries follow the format `"NAME":"CODE"`. NAME is any string. CODE is the names of the arrow key presses in sequence, separated by spaces and in all caps, to activate the stratagem. For example, the "Resupply" stratagem is called by pressing the down arrow twice, then the up arrow, then the right arrow, so its entry would be:
+Stratagem codes are stored as entries in [codes.json](codes.json). Entries follow the format `"NAME":"CODE"`. `NAME` is any string. `CODE` is the names of the arrow key presses in sequence, separated by spaces and in all caps, to activate the stratagem. For example, the "Resupply" stratagem is called by pressing the down arrow twice, then the up arrow, then the right arrow, so its entry would be:
 ```
   "Resupply": "DOWN DOWN UP RIGHT"
 ```
