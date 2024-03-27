@@ -1,4 +1,4 @@
-# duckydivers
+# duckydivers2
 DuckyScripts for calling in stratagems in HellDivers 2.
 
 ## Updating Code or Keybinds
