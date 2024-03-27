@@ -8,13 +8,16 @@ from pathlib import Path
 def genducky(name, code, keybinds):
     """Generate ducky script text file for stratagem"""
     out = []
+    delay = keybinds['DELAY']
     # preamble
-    out.append(f'REM {name} Stratagem')
     out.append(f'REM {name} Stratagem')
     # generate code
     out.append(f'HOLD {keybinds["CTRL"]}')
     for c in code.split(' '):
-        out.append(keybinds[c])
+        out.append(f'DELAY {delay}')
+        out.append(f'HOLD {keybinds[c]}')
+        out.append(f'DELAY {delay}')
+        out.append('RELEASE')
     out.append('RELEASE')
     return '\n'.join(out)
 
