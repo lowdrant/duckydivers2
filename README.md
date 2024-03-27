@@ -9,6 +9,18 @@ Stratagem codes are stored as entries in [codes.json](codes.json). Entries follo
 
 [codes.json](codes.json) was initially generated from the HTML of a Helldivers 2 webguide, cited below.
 
+## Customizing Keybinds
+[keybinds.json](keybinds.json) translates between the default Helldivers 2 keybindings and custom keybindings. For example, if you hold `shift` to enter stratagems, and key them in using `wasd`, your keybinds file would look like:
+```
+{
+    "CTRL": "SHIFT",
+    "LEFT": "w",
+    "RIGHT": "a",
+    "UP": "s",
+    "DOWN": "d"
+}
+```
+
 ## References
 - https://www.shacknews.com/article/138705/all-stratagems-codes-helldivers-2
 - https://payloadstudio.hak5.org/community/
