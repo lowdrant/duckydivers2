@@ -14,10 +14,10 @@ Stratagem codes are stored as entries in [codes.json](codes.json). Entries follo
 ```
 {
     "CTRL": "SHIFT",
-    "LEFT": "w",
-    "RIGHT": "a",
-    "UP": "s",
-    "DOWN": "d"
+    "UP": "w",
+    "LEFT": "a",
+    "DOWN": "s",
+    "RIGHT": "d"
 }
 ```
 
