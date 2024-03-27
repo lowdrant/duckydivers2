@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Read codes from ShackNews HTML and 
 """
-from pathlib import Path
 from json import dump
+from pathlib import Path
 
 # Pathing
 cwd = Path(__file__).resolve().parent
@@ -41,7 +41,7 @@ with open(fnhtml, 'r') as f:
 # Identify Stratagems
 # - Table format goes "Name"\n"Code". Codes are easier to find, so
 # - find the codes and then get the name from the previous line.
-out = []
+out = dict()
 keys = list(keydict.keys())
 for i, line in enumerate(lines):
     line, lineprev = lines[i], lines[i - 1]
@@ -51,7 +51,7 @@ for i, line in enumerate(lines):
             if not all([v in keys for v in code]):  # skip non-code HTML lines
                 break
             name = striphtml(lines[i - 1])
-            out.append({name: code2ducky(code)})
+            out.update({name: code2ducky(code)})
             break
 
 # Save
