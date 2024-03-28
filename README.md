@@ -1,8 +1,11 @@
 # duckydivers2
 DuckyScripts for calling in stratagems in HellDivers 2.
 
+## Quickstart
+See "Releases" in the sidebar for DuckyScript downloads. [scripts/](scripts/) stores DuckyScripts to call in every stratagem in HellDivers2 as of March 2024. They use CTRL to open the stratagems menu and the arrow keys to key in a stratagem. Load them onto a [RubberDucky](https://docs.hak5.org/hak5-usb-rubber-ducky) or a [FlipperZero](https://flipperzero.one/), plug it into your computer, and deliver some Democracy.
+
 ## Updating Code or Keybinds
-To change the stratagems or the keybinds to call them in, update [codes.json](codes.json) or [keybinds.json](keybinds.json) respectively. Running [genscripts.py](genscripts.py) using any Python interpreter will put a DuckyScript for each stratagem in [scripts/](scripts/). 
+To change the stratagems or their keybinds, update [codes.json](codes.json) or [keybinds.json](keybinds.json) respectively. Then run [genscripts.py](genscripts.py) using any Python interpreter to dump the updated DuckyScripts for each stratagem in [scripts/](scripts/).
 
 ### Updating Stratagem Codes
 [codes.json](codes.json) controls the stratagem names and codes. Each stratagem entry follows the format: `"NAME":"CODE"`. `NAME` is whatever you want the script for that stratagem to be named. `CODE` is the names of the arrow key presses in sequence, separated by spaces and in all caps, to activate the stratagem. For example, the "Resupply" stratagem is called by pressing the down arrow twice, then the up arrow, then the right arrow, so its entry would be:
