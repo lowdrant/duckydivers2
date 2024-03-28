@@ -4,5 +4,5 @@
     "RIGHT": "d",
     "UP": "w",
     "DOWN": "s",
-    "DELAY": 1000
+    "DELAY": 100
 }
