@@ -17,7 +17,7 @@ and the corresponding script would be [scripts/Resupply.txt](scripts/Resupply.tx
 [codes.json](codes.json) was initially generated from the HTML of a Helldivers 2 webguide, cited in References and saved in [readcodes/](readcodes/).
 
 ### Customizing Keybinds
-[keybinds.json](keybinds.json) translates between arrow directions and your custom keybindings. If you hold `shift` to enter stratagems, and key them in using `wasd` with a delay of 100 milliseconds between button presses, your keybinds file would look like:
+[keybinds.json](keybinds.json) translates between arrow directions and your custom keybindings. If you hold `shift` to enter stratagems, and key them in using `wasd` with a delay of 200 milliseconds per button presses, your keybinds file would look like:
 ```
 {
     "CTRL": "SHIFT",
@@ -28,6 +28,7 @@ and the corresponding script would be [scripts/Resupply.txt](scripts/Resupply.tx
     "DELAY": 100
 }
 ```
+Each key press takes double `DELAY`. `DELAY` sets both the time each key is pressed and the time between key presses.
 
 ## References
 - https://www.shacknews.com/article/138705/all-stratagems-codes-helldivers-2
