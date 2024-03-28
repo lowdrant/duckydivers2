@@ -1,8 +1,8 @@
 {
-    "CTRL": "SHIFT",
-    "LEFT": "a",
-    "RIGHT": "d",
-    "UP": "w",
-    "DOWN": "s",
+    "CTRL": "CTRL",
+    "LEFT": "LEFT",
+    "RIGHT": "RIGHT",
+    "UP": "UP",
+    "DOWN": "DOWN",
     "DELAY": 100
 }
