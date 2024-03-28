@@ -54,5 +54,8 @@
  "Autocannon Sentry": "DOWN UP RIGHT UP LEFT UP",
  "Rocket Sentry": "DOWN UP RIGHT RIGHT LEFT",
  "EMS Mortar Sentry": "DOWN UP RIGHT DOWN RIGHT",
- "Patriot Exosuit": "LEFT DOWN RIGHT UP LEFT DOWN DOWN"
+ "Patriot Exosuit": "LEFT DOWN RIGHT UP LEFT DOWN DOWN",
+ "SSD": "DOWN DOWN DOWN UP UP",
+ "Seismic Probe": "UP UP LEFT RIGHT DOWN DOWN",
+ "Upload Data": "DOWN DOWN UP UP UP"
 }
