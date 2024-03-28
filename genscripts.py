@@ -9,16 +9,18 @@ def genducky(name, code, keybinds):
     """Generate ducky script text file for stratagem"""
     out = []
     delay = keybinds['DELAY']
+    ctrl = keybinds['CTRL']
     # preamble
     out.append(f'REM {name} Stratagem')
     # generate code
-    out.append(f'HOLD {keybinds["CTRL"]}')
+    out.append(f'HOLD {ctrl}')
     for c in code.split(' '):
+        key = keybinds[c]
         out.append(f'DELAY {delay}')
-        out.append(f'HOLD {keybinds[c]}')
+        out.append(f'HOLD {key}')
         out.append(f'DELAY {delay}')
-        out.append('RELEASE')
-    out.append('RELEASE')
+        out.append(f'RELEASE {key}')
+    out.append(f'RELEASE {ctrl}')
     return '\n'.join(out)
 
 
