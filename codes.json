@@ -57,5 +57,7 @@
  "Patriot Exosuit": "LEFT DOWN RIGHT UP LEFT DOWN DOWN",
  "SSD": "DOWN DOWN DOWN UP UP",
  "Seismic Probe": "UP UP LEFT RIGHT DOWN DOWN",
- "Upload Data": "DOWN DOWN UP UP UP"
+ "Upload Data": "DOWN DOWN UP UP UP",
+ "Heavy Machine Gun": "DOWN LEFT UP DOWN DOWN",
+ "Quasar Canon": "DOWN DOWN UP LEFT RIGHT"
 }
