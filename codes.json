@@ -59,5 +59,7 @@
  "Seismic Probe": "UP UP LEFT RIGHT DOWN DOWN",
  "Upload Data": "DOWN DOWN UP UP UP",
  "Heavy Machine Gun": "DOWN LEFT UP DOWN DOWN",
- "Quasar Canon": "DOWN DOWN UP LEFT RIGHT"
+ "Quasar Canon": "DOWN DOWN UP LEFT RIGHT",
+ "Airburst Rocket": "DOWN UP UP LEFT RIGHT",
+ "Anti-Tank Mines": "DOWN LEFT UP UP"
 }
