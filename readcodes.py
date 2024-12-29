@@ -30,6 +30,11 @@ class AbstractCodesFromWeb:
         ABSTRACT:
             URL -- str -- wbbpage to download codes from 
             parse -- method -- parses `self.lines` into `self.codes`
+            KEYUP -- str -- string in html corresponding to key-up in HD2
+            KEYDOWN -- str -- string in html corresponding to key-down in HD2
+            KEYLEFT -- str -- string in html corresponding to key-left in HD2
+            KEYRIGHT -- str -- string in html corresponding to key-right in HD2
+
 
         ATTRIBUTES:
             resp -- urlopen output
@@ -44,12 +49,20 @@ class AbstractCodesFromWeb:
             >>> src.save(filename)
     """
     URL = None
+    KEYLEFT = None
+    KEYRIGHT = None
+    KEYUP = None
+    KEYDOWN = None
 
     def __init__(self):
         self.resp = None
         self.block = None
         self.lines = None
         self.codes = None
+        self.keydict = {self.KEYDOWN: 'DOWN',
+                        self.KEYUP: 'UP',
+                        self.KEYLEFT: 'LEFT',
+                        self.KEYRIGHT: 'RIGHT'}
 
     def _raise_abstract_err(self):
         raise NotImplementedError('Abstract method')
@@ -80,26 +93,30 @@ class AbstractCodesFromWeb:
             ret = dump(self.codes, f, indent=1)
         return ret
 
+    def _addcode(self, name, codeseq):
+        """Add `name` hash to self.codes with codeseq translated by keydict"""
+        self.codes.update({name: ' '.join(self.keydict[c] for c in codeseq)})
+
 
 class CodesFromShackNews(AbstractCodesFromWeb):
     URL = "https://www.shacknews.com/article/138705/all-stratagems-codes-helldivers-2"
+    KEYLEFT = '&larr'
+    KEYRIGHT = '&rarr'
+    KEYUP = '&uarr'
+    KEYDOWN = '&darr'
 
     def parse(self):
         # Identify Stratagems
         # - Table format goes "Name"\n"Code". Codes are easier to find, so
         # - find the codes and then get the name from the previous line.
-        keydict = {'&larr': 'LEFT', '&rarr': 'RIGHT',
-                   '&uarr': 'UP', '&darr': 'DOWN'}
         self.codes = {}
         for i, line in enumerate(self.lines):
-            haskey = any([k in line for k in keydict])
+            haskey = any([k in line for k in self.keydict])
             if haskey:
                 codeseq = self._striphtml(line).split(';')[:-1]
                 # only consider stratagem code lines
-                if all([v in keydict for v in codeseq]):
-                    name = self._striphtml(self.lines[i - 1])
-                    code = ' '.join(keydict[c] for c in codeseq)
-                    self.codes.update({name: code})
+                if all([v in self.keydict for v in codeseq]):
+                    self._addcode(self._striphtml(self.lines[i - 1]), codeseq)
 
     @staticmethod
     def _striphtml(txt):
