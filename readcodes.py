@@ -5,7 +5,7 @@ if __name__ != '__main__':
 from argparse import ArgumentParser
 from json import dump
 from pathlib import Path
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_FN = ROOT / 'codes.json'
@@ -130,6 +130,34 @@ class CodesFromShackNews(AbstractCodesFromWeb):
         return txt[i1:i2]
 
 
+class CodesFromGG(AbstractCodesFromWeb):
+    """Download HD2 codes from wiki.gg"""
+    # robots.txt seems to allow webscraping, but I get 403 trying to get it
+    URL = Request('https://helldivers.wiki.gg/wiki/Stratagems',
+                  headers={'User-Agent': 'Mozilla/5.0'})
+    KEYLEFT = 'Left Arrow.png'
+    KEYRIGHT = 'Right Arrow.png'
+    KEYUP = 'Up Arrow.png'
+    KEYDOWN = 'Down Arrow.png'
+
+    def parse(self):
+        self.codes = {}
+        i = 0
+        while i < len(self.lines):
+            if self.haskey(self.lines[i]):
+                name = self.lines[i - 3].split('>')[-2][:-3]
+                arrow_idxs = [i]
+                # search for end of stratagem code
+                # - same-stratagem keys have spacing of 2
+                while self.haskey(self.lines[i + 2]):
+                    i += 2
+                    arrow_idxs.append(i)
+                codeseq = [self.lines[j].split('"')[1] for j in arrow_idxs]
+                self._addcode(name, codeseq)
+                i = arrow_idxs[-1]  # +1 added at end of loop
+            i += 1
+
+
 # =============================================================================
 # CLI
 # =============================================================================
@@ -141,7 +169,7 @@ parser.add_argument('--src', help='websource to download codes', default='')
 parser.add_argument('--fn', help='filename to save codes', default=DEFAULT_FN)
 args = parser.parse_args()
 
-src = CodesFromShackNews()
+src = CodesFromGG()
 
 src.download()
 src.parse()
