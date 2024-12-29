@@ -58,7 +58,7 @@ class AbstractCodesFromWeb:
         self.resp = None
         self.block = None
         self.lines = None
-        self.codes = None
+        self.codes = {}
         self.keydict = {self.KEYDOWN: 'DOWN',
                         self.KEYUP: 'UP',
                         self.KEYLEFT: 'LEFT',
@@ -113,7 +113,6 @@ class CodesFromShackNews(AbstractCodesFromWeb):
         # Identify Stratagems
         # - Table format goes "Name"\n"Code". Codes are easier to find, so
         # - find the codes and then get the name from the previous line.
-        self.codes = {}
         for i, line in enumerate(self.lines):
             if self.haskey(line):
                 codeseq = self._striphtml(line).split(';')[:-1]
@@ -141,7 +140,6 @@ class CodesFromGG(AbstractCodesFromWeb):
     KEYDOWN = 'Down Arrow.png'
 
     def parse(self):
-        self.codes = {}
         i = 0
         while i < len(self.lines):
             if self.haskey(self.lines[i]):
