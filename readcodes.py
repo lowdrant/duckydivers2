@@ -5,6 +5,7 @@ if __name__ != '__main__':
 from argparse import ArgumentParser
 from json import dump
 from pathlib import Path
+from re import compile as re_compile
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
@@ -156,6 +157,23 @@ class CodesFromGG(AbstractCodesFromWeb):
             i += 1
 
 
+class CodesFromFandom(AbstractCodesFromWeb):
+    """Download codes from https://helldivers.fandom.com."""
+    URL = 'https://helldivers.fandom.com/wiki/Stratagem_Codes_(Helldivers_2)'
+    KEYLEFT = '"Left Arrow"'
+    KEYRIGHT = '"Right Arrow"'
+    KEYUP = '"Up Arrow"'
+    KEYDOWN = '"Down Arrow"'
+
+    def parse(self):
+        expr = re_compile('"[A-Z][a-z]+ Arrow"')
+        for i, line in enumerate(self.lines):
+            if self.haskey(line):
+                name = self.lines[i - 2].split('>')[-2][:-3]
+                codeseq = expr.findall(line)
+                self._addcode(name, codeseq)
+
+
 # =============================================================================
 # CLI
 # =============================================================================
@@ -167,7 +185,7 @@ parser.add_argument('--src', help='websource to download codes', default='')
 parser.add_argument('--fn', help='filename to save codes', default=DEFAULT_FN)
 args = parser.parse_args()
 
-src = CodesFromGG()
+src = CodesFromFandom()
 
 src.download()
 src.parse()
