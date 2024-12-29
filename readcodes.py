@@ -9,7 +9,9 @@ from re import compile as re_compile
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_FN = ROOT / 'codes.json'
+DEFAULT_FNJSON = ROOT / 'codes.json'
+DEFAULT_FNKEYS = ROOT / 'keybinds.json'
+SCRIPTDIR = ROOT / 'scripts'
 
 # =============================================================================
 # INTERFACE CLASSES
@@ -173,20 +175,84 @@ class CodesFromFandom(AbstractCodesFromWeb):
                 codeseq = expr.findall(line)
                 self._addcode(name, codeseq)
 
+# =============================================================================
+# DUCKYSCRIPT
+# =============================================================================
+
+
+def genducky(name, code, keybinds):
+    """Generate ducky script text file for stratagem"""
+    out = []
+    delay = keybinds['DELAY']
+    ctrl = keybinds['CTRL']
+    # preamble
+    out.append(f'REM {name} Stratagem')
+    # generate code
+    out.append(f'HOLD {ctrl}')
+    for c in code.split(' '):
+        key = keybinds[c]
+        out.append(f'DELAY {delay}')
+        out.append(f'HOLD {key}')
+        out.append(f'DELAY {delay}')
+        out.append(f'RELEASE {key}')
+    out.append(f'RELEASE {ctrl}')
+    return '\n'.join(out)
+
+
+def writecodes(codes, keybinds):
+    """Write codes to duckyscripts using keybinds"""
+    for n, c in codes.items():
+        c = c.upper()  # enforce uppercase
+        script = genducky(n, c, keybinds)
+        with open(SCRIPTDIR / (n + '.txt'), 'w') as f:
+            f.write(script)
 
 # =============================================================================
 # CLI
 # =============================================================================
 
-parser = ArgumentParser(
-    'CLI to webscrape stratagem entry codes and store them as JSON'
-)
-parser.add_argument('--src', help='websource to download codes', default='')
-parser.add_argument('--fn', help='filename to save codes', default=DEFAULT_FN)
-args = parser.parse_args()
 
-src = CodesFromFandom()
+def cli():
+    parser = ArgumentParser('CLI to webscrape stratagem entry codes and turn them into duckscripts
+                            )
+    subparsers = parser.add_subparsers(help='subcmd help', dest='cmd')
 
-src.download()
-src.parse()
-src.save(args.fn)
+    # Download CLI
+    parser_download = subparsers.add_parser('download', help='download help')
+    parser_download.add_argument(
+        '--fn', type=str, default=DEFAULT_FNJSON, help='where to store downloaded codes')
+    parser_download.add_argument(
+        '--src', choices=['fandom', 'gg', 'shacknews'], help='asdf')
+
+    # Write CLI
+    parser_write = subparsers.add_parser('write', help='write help')
+    parser_write.add_argument(
+        '--fnjson', type=str, default=DEFAULT_FNJSON, help='where to store downloaded codes')
+    parser_write.add_argument('--fnkeys', type=str,
+                              default=DEFAULT_FNKEYS, help='keybinds cfg')
+
+    # All CLI
+    parser_all = subparsers.add_parser('all')
+    parser_all.add_argument('--fnkey', type=str,
+                            default=DEFAULT_FNKEYS, help='keybinds cfg')
+    parser = setup_cli()
+    args = parser.parse_args()
+
+
+def main():
+    args = cl()
+    if cmd in ('download', 'all'):
+        if args.src == 'fandom':
+            src = CodesFromFandom()
+        elif args.src == 'gg':
+            src = CodesFromGG()
+        elif args.src == 'shacknews':
+            src = CodesFromShackNews()
+        src.download()
+        src.parse()
+        src.save(args.fn)
+    if cmd == 'write':
+        writecodes(codes, keybinds)
+
+
+main()
