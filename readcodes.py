@@ -97,6 +97,10 @@ class AbstractCodesFromWeb:
         """Add `name` hash to self.codes with codeseq translated by keydict"""
         self.codes.update({name: ' '.join(self.keydict[c] for c in codeseq)})
 
+    def haskey(self, line):
+        """Check if line of html has entry key"""
+        return any([k in line for k in self.keydict])
+
 
 class CodesFromShackNews(AbstractCodesFromWeb):
     URL = "https://www.shacknews.com/article/138705/all-stratagems-codes-helldivers-2"
@@ -111,8 +115,7 @@ class CodesFromShackNews(AbstractCodesFromWeb):
         # - find the codes and then get the name from the previous line.
         self.codes = {}
         for i, line in enumerate(self.lines):
-            haskey = any([k in line for k in self.keydict])
-            if haskey:
+            if self.haskey(line):
                 codeseq = self._striphtml(line).split(';')[:-1]
                 # only consider stratagem code lines
                 if all([v in self.keydict for v in codeseq]):
